@@ -1,0 +1,103 @@
+\documentclass{ctexart}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\diag}{diag}
+
+\usepackage{pdfpages}
+
+\begin{document}
+\section{奇异值分解}
+    为了引入奇异值的概念,我们先证明两个引理.
+    \begin{lemma}
+        设$A\in\mathbb{C}^{m\times n}$,则
+        $$\rank(A^HA)=\rank(AA^H)=\rank(A)$$
+    \end{lemma}
+    \begin{proof}
+        利用$Ax=0$与$A^HAx=0$同解以及$Ax=0$与$AA^Hx=0$同解立刻可得.
+    \end{proof}
+    \begin{lemma}
+        设$A\in\mathbb{C}^{m\times n}$,则
+
+        (1)$A^HA$与$AA^H$的特征值均为非负实数;
+
+        (2)$A^HA$与$AA^H$的非零特征值相同,并且非零特征值的个数(重特征值按重数计算)等于$\rank(A)$.
+    \end{lemma}
+    \begin{proof}
+        (1)设$\lambda$是$A^HA$的任一特征值,$x\neq0$为相应的特征向量,则$$A^HAx=\lambda x$$
+        因为$A^HA$是Hermite矩阵,所以$\lambda$是实数,并且$$\lambda x^Hx=x^HA^HAx=(Ax)^HAx\geq0$$
+        由于$x^x>0$,所以$\lambda\geq0$.
+        
+        同理可证$AA^H$的特征值军费非负实数.
+        
+        (2)由线性代数知识,易知方阵$AB$与方阵$BA$的非零特征值相同,则$A^HA$与$AA^H$的非零特征值相同,并且它们的非零特征值个数为$$r=\rank(A^HA)=\rank(AA^H)=\rank(A)$$
+    \end{proof}
+    \newpage
+    \begin{theorem}
+        设$A$是$m\times n$矩阵,且$\rank(A)=r$,则存在$m$阶酉矩阵$V$和$n$阶酉矩阵$U$使得
+        $$V^HAU=
+        \begin{pmatrix}
+            \Sigma & 0 \\
+            0 & 0
+        \end{pmatrix}
+        $$
+        其中$\Sigma=\diag(\sigma_1,\cdots,\sigma_r)$,且$\sigma_1\geq\cdots\geq\sigma_r>0$.
+    \end{theorem}
+    \begin{proof}
+        因为$\rank(A)=r$,由Lemma2可设$A^HA$的特征值是
+        $$\sigma^2_1\geq\cdots\geq\sigma^2_r>0,\sigma^2_{r+1}=\cdots=\sigma^2_{n}=0$$
+        因为$A^HA$是Hermite矩阵,由谱分解定理可知存在$n$阶酉矩阵$U$使得
+        $$U^HA^HAU=
+        \begin{pmatrix}
+            \Sigma^2 & 0 \\
+            0 & 0
+        \end{pmatrix}
+        $$
+        记$U=[U_1,U_2]$,其中$U_1$是$n\times r$矩阵,上式可改写为
+        $$
+        A^HA[U_1,U_2]=[U_1,U_2]
+        \begin{pmatrix}
+            \Sigma^2 & 0 \\
+            0 & 0
+        \end{pmatrix}
+        $$
+        则有
+        $$A^HAU_1=U_1\Sigma^2,A^HAU_2=0$$
+
+        记$V=[V_1,V_2]$,其中$V_1$是$m\times r$矩阵,$V_2$是$m\times(m-r)$矩阵.令
+        $$V_1=AU_1\Sigma^{-1}$$
+        则
+        $$V^H_1V=(\Sigma^{-1})^HU^H_1A^HAU_1\Sigma^{-1}=I_r$$
+        那么我们可以找到一个$V_2$使得$V=[V_1,V_2]$是酉矩阵,则
+        $$V^H_2AU_1=V^H_2V_1\Sigma=0$$
+        那么
+        $$V^HAU=
+        \begin{pmatrix}
+            V^H_1 \\
+            V^H_2
+        \end{pmatrix}A[U_1,U_2]=
+        \begin{pmatrix}
+            V^H_1AU_1 & V^H_1AU_2 \\
+            V^H_2AU_1 & V^H_2AU_2
+        \end{pmatrix}=
+        \begin{pmatrix}
+            \Sigma & 0 \\
+            0 & 0
+        \end{pmatrix}
+        $$
+    \end{proof}
+\section{矩阵级数}
+    \begin{definition}
+        设有矩阵序列$\{A^{(k)}\}$,若当$k\to+\infty$时,有$a_{ij}^{(k)}\to a_{ij}$,则称$\{A^{(k)}\}$收敛,并将$A=(a_{ij})$称为$\{A^{(k)}\}$的极限,
+        记为$\lim_{k\to+\infty}A^{(k)}=A$.不收敛的矩阵序列称为发散的.
+    \end{definition}
+    \begin{lemma}
+        Definition 1与矩阵范数意义下的收敛性是等价的
+    \end{lemma}
+\end{document}
